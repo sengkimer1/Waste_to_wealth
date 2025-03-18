@@ -75,27 +75,24 @@ class LoginPage extends StatelessWidget {
             ),
             // const SizedBox(height: 20),
             Container(
-              width: 350, // Set the width for the row container
+              width: 350, 
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // Remember Me Checkbox
                   Row(
                     children: [
                       const Icon(
                         Icons.check,
                         color: Color(0xF351BB20),
-                      ), // You can set a value or callback here
+                      ),
                       const Text(
                         'Remember Me',
                         style: TextStyle(color: Color(0xF3A1A1A1)),
                       ),
                     ],
                   ),
-                  // Forgot Password Text
                   TextButton(
                     onPressed: () {
-                      // Handle forgot password action here
                     },
                     child: const Text(
                       'Forgot Password?',
@@ -110,22 +107,21 @@ class LoginPage extends StatelessWidget {
             ),
             const SizedBox(height: 40),
             Container(
-              width: 350, // Set the width for the button
+              width: 350, 
               child: ElevatedButton(
                 onPressed: () {
-                  // Navigate to the SignUpPage
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => const SignUpPage()),
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xF32E553B), // Button color
+                  backgroundColor: const Color(0xF32E553B),
                   padding: const EdgeInsets.symmetric(
                     vertical: 20,
-                  ), // Padding inside the button
+                  ), 
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10), // Rounded corners
+                    borderRadius: BorderRadius.circular(10),
                   ),
                 ),
                 child: const Text(
@@ -149,7 +145,7 @@ class LoginPage extends StatelessWidget {
                 text: TextSpan(
                   style: const TextStyle(
                     fontSize: 16,
-                    color: Colors.black, // Default color for the first part
+                    color: Colors.black, 
                   ),
                   children: <TextSpan>[
                     const TextSpan(
@@ -157,7 +153,7 @@ class LoginPage extends StatelessWidget {
                       style: TextStyle(
                         color:
                             Colors
-                                .black, // Black color for the "Don't have an account?" part
+                                .black,
                       ),
                     ),
                     TextSpan(
@@ -165,8 +161,8 @@ class LoginPage extends StatelessWidget {
                       style: const TextStyle(
                         color: Color(
                          0xF32E553B,
-                        ), // Blood red color for "Sign Up"
-                        fontWeight: FontWeight.bold, // Bold for emphasis
+                        ),
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ],
