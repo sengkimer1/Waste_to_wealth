@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:waste_to_wealth/pages/login.page.dart';
-import 'package:waste_to_wealth/pages/signup.page.dart';
-import 'package:waste_to_wealth/pages/splash.page.dart';
+import 'package:waste_to_wealth/compenets/navigate_menu.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,12 +9,22 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home:  SignUpPage(),
+      home: const LoginPage(), // Start with Login Page
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: NavigationMenu(), 
     );
   }
 }

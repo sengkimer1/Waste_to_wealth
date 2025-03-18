@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'signup.page.dart';
-// import 'home_page.dart';
+import '../main.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -112,7 +112,7 @@ class LoginPage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const SignUpPage()),
+                    MaterialPageRoute(builder: (context) => const HomePage()),
                   );
                 },
                 style: ElevatedButton.styleFrom(
@@ -138,7 +138,7 @@ class LoginPage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const SignUpPage()),
+                  MaterialPageRoute(builder: (context) => const MyApp()),
                 );
               },
               child: RichText(
