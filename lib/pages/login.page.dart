@@ -75,16 +75,13 @@ class LoginPage extends StatelessWidget {
             ),
             // const SizedBox(height: 20),
             Container(
-              width: 350, 
+              width: 350,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
                     children: [
-                      const Icon(
-                        Icons.check,
-                        color: Color(0xF351BB20),
-                      ),
+                      const Icon(Icons.check, color: Color(0xF351BB20)),
                       const Text(
                         'Remember Me',
                         style: TextStyle(color: Color(0xF3A1A1A1)),
@@ -92,8 +89,7 @@ class LoginPage extends StatelessWidget {
                     ],
                   ),
                   TextButton(
-                    onPressed: () {
-                    },
+                    onPressed: () {},
                     child: const Text(
                       'Forgot Password?',
                       style: TextStyle(
@@ -107,19 +103,19 @@ class LoginPage extends StatelessWidget {
             ),
             const SizedBox(height: 40),
             Container(
-              width: 350, 
+              width: 350,
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => const HomePage()),
+                    MaterialPageRoute(
+                      builder: (context) => const HomePage(),
+                    ), 
                   );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xF32E553B),
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 20,
-                  ), 
+                  padding: const EdgeInsets.symmetric(vertical: 20),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -127,8 +123,8 @@ class LoginPage extends StatelessWidget {
                 child: const Text(
                   'Login',
                   style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 15, 
+                    color: Colors.white, // Text color
+                    fontSize: 15, // Text size
                   ),
                 ),
               ),
@@ -138,30 +134,21 @@ class LoginPage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const MyApp()),
+                  MaterialPageRoute(builder: (context) => const SignUpPage()),
                 );
               },
               child: RichText(
                 text: TextSpan(
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: Colors.black, 
-                  ),
+                  style: const TextStyle(fontSize: 16, color: Colors.black),
                   children: <TextSpan>[
                     const TextSpan(
                       text: "Don't have an account ? ",
-                      style: TextStyle(
-                        color:
-                            Colors
-                                .black,
-                      ),
+                      style: TextStyle(color: Colors.black),
                     ),
                     TextSpan(
                       text: "Sign Up",
                       style: const TextStyle(
-                        color: Color(
-                         0xF32E553B,
-                        ),
+                        color: Color(0xF32E553B),
                         fontWeight: FontWeight.bold,
                       ),
                     ),
