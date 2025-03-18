@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:waste_to_wealth/pages/login.page.dart';
+import 'package:waste_to_wealth/pages/signup.page.dart';
 import 'package:waste_to_wealth/pages/splash.page.dart';
 
 void main() {
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home:  LoginPage(),
+      home:  SignUpPage(),
     );
   }
 }

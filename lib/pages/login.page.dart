@@ -13,7 +13,7 @@ class LoginPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset('assets/splash.webp', width: 300),
+            Image.asset('assets/Logo.webp', width: 300),
             const Text(
               'Welcome',
               style: TextStyle(
@@ -99,17 +99,20 @@ class LoginPage extends StatelessWidget {
                     },
                     child: const Text(
                       'Forgot Password?',
-                      style: TextStyle(color: Color(0xF32E553B)),
+                      style: TextStyle(
+                        color: Color(0xF32E553B),
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 40),
             Container(
               width: 350, // Set the width for the button
               child: ElevatedButton(
-               onPressed: () {
+                onPressed: () {
                   // Navigate to the SignUpPage
                   Navigator.push(
                     context,
@@ -136,21 +139,40 @@ class LoginPage extends StatelessWidget {
             ),
             const SizedBox(height: 5),
             TextButton(
-                onPressed: () {
-                  // Navigate to the SignUpPage
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const SignUpPage()),
-                  );
-                },
-                child: const Text(
-                  "Don't have an account? Sign Up",
-                  style: TextStyle(
-                    color: Color(0xF32E553B),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SignUpPage()),
+                );
+              },
+              child: RichText(
+                text: TextSpan(
+                  style: const TextStyle(
                     fontSize: 16,
+                    color: Colors.black, // Default color for the first part
                   ),
+                  children: <TextSpan>[
+                    const TextSpan(
+                      text: "Don't have an account ? ",
+                      style: TextStyle(
+                        color:
+                            Colors
+                                .black, // Black color for the "Don't have an account?" part
+                      ),
+                    ),
+                    TextSpan(
+                      text: "Sign Up",
+                      style: const TextStyle(
+                        color: Color(
+                         0xF32E553B,
+                        ), // Blood red color for "Sign Up"
+                        fontWeight: FontWeight.bold, // Bold for emphasis
+                      ),
+                    ),
+                  ],
                 ),
               ),
+            ),
             // ElevatedButton (You can uncomment and use this)
             // ElevatedButton(
             //   onPressed: () {
