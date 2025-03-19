@@ -4,6 +4,8 @@ import 'package:waste_to_wealth/bloc/user_bloc.dart';
 import 'package:waste_to_wealth/components/navigate_menu.dart';
 import 'package:waste_to_wealth/views/login_screen.dart';
 
+
+
 void main() {
   runApp(const MyApp());
 }
@@ -26,10 +28,8 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: Colors.white,
         ),
         debugShowCheckedModeBanner: false,
-        home: const LoginScreen(),
+        home: const LoginScreen(), // Change this to HomePage() if needed
       ),
     );
   }
 }
-
-
