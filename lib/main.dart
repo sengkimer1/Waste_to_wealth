@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:waste_to_wealth/pages/login.page.dart';
-import 'package:waste_to_wealth/compenets/navigate_menu.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:waste_to_wealth/bloc/user_bloc.dart';
+import 'package:waste_to_wealth/components/navigate_menu.dart';
+import 'package:waste_to_wealth/views/login_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,20 +13,23 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: const LoginPage(), // Start with Login Page
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<UserBloc>(
+          create: (context) => UserBloc(),
+        ),
+      ],
+      child: MaterialApp(
+        title: 'Waste to Wealth',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          scaffoldBackgroundColor: Colors.white,
+        ),
+        debugShowCheckedModeBanner: false,
+        home: const LoginScreen(),
+      ),
     );
   }
 }
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: NavigationMenu(), 
-    );
-  }
-}
