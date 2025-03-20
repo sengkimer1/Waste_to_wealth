@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:waste_to_wealth/bloc/user_bloc.dart';
 import 'package:waste_to_wealth/components/navigate_menu.dart';
+import 'package:waste_to_wealth/views/history_screen.dart';
 import 'package:waste_to_wealth/views/login_screen.dart';
 
 
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: Colors.white,
         ),
         debugShowCheckedModeBanner: false,
-        home: const LoginScreen(), // Change this to HomePage() if needed
+        home: const HistoryScreen(), // Change this to HomePage() if needed
       ),
     );
   }
