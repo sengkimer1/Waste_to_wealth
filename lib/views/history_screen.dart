@@ -51,7 +51,7 @@ class HistoryScreen extends StatelessWidget {
                           ElevatedButton(
                             onPressed: () {},
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.green,
+                              backgroundColor: Color(0xFF51BB20),
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 20,
                                 vertical: 16,
