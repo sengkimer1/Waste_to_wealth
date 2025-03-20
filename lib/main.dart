@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: Colors.white,
         ),
         debugShowCheckedModeBanner: false,
-        home: const HistoryScreen(), // Change this to HomePage() if needed
+        home: const HistoryScreen(),
       ),
     );
   }
