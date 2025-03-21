@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:waste_to_wealth/models/register_model.dart';
+import 'package:waste_to_wealth/views/activity_screen.dart';
+import 'package:waste_to_wealth/views/reward.dart';
 
 // ignore: must_be_immutable
 class HomeScreen extends StatelessWidget {
@@ -29,103 +31,97 @@ class HomeScreen extends StatelessWidget {
             SizedBox(height: 20),
             _buildQuickAction(),
             SizedBox(height: 20),
-            _button(),
+            _button(context),
             SizedBox(height: 20),
-            _Register(),
-ListView.separated(
-  itemCount: register.length,
-  shrinkWrap: true,
-  physics: NeverScrollableScrollPhysics(), // Prevents nested scrolling issues
-  separatorBuilder: (context, index) => SizedBox(height: 20), 
-  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10), 
-  itemBuilder: (context, index) {
-    return Container(
-      decoration: BoxDecoration(
-  color: register[index].boxIsSelected ? Colors.white : Colors.white, 
-  borderRadius: BorderRadius.circular(8),
-  border: Border.all(
-    color: const Color.fromARGB(255, 97, 184, 100),
-    width: 1
-  ),
-  boxShadow: [
-    BoxShadow(
-      color: Colors.grey.withOpacity(0.09),
-      offset: Offset(30, 30),
-      blurRadius: 40,
-      spreadRadius: 0,
-    ),
-  ],
-),
-
-      padding: EdgeInsets.symmetric(vertical: 12), 
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween, // Proper spacing
-        children: [
-          SvgPicture.asset(register[index].iconPath, width: 65),
-          
-          Expanded( // Ensures Column expands properly
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween, // Title & Points aligned
-                  children: [
-                    Text(
-                      register[index].title,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black,
-                        fontSize: 10,
-                      ),
-                    ),
-                    Text(
-                      register[index].points,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xFF51BB20),
-                        fontSize: 10,
-                      ),
-                    ),
-
-                    
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                     Text(
-                  register[index].weight,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black,
-                    fontSize: 10,
+            _Register(context),
+            ListView.separated(
+              itemCount: register.length,
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              separatorBuilder: (context, index) => SizedBox(height: 10),
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              itemBuilder: (context, index) {
+                return Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
                   ),
-                ),
-                  // Title & Points aligned
-                
-                Text(
-                  register[index].hours,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black,
-                    fontSize: 10,
+                  elevation: 4, // Adds a shadow to the card
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.delete, // Use the delete icon
+                          size: 40, // Set the icon size
+                          color: Colors.green, // Set the icon color
+                        ),
+                        SizedBox(
+                          width: 12,
+                        ), // Adds space between the icon and the text
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      register[index].title,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.black,
+                                        fontSize:
+                                            14, // Increased font size for readability
+                                        overflow:
+                                            TextOverflow
+                                                .ellipsis, // Prevents overflow if the title is long
+                                      ),
+                                    ),
+                                  ),
+                                  Text(
+                                    register[index].points,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      color: Color(0xFF51BB20),
+                                      fontSize: 12, // Adjusted for consistency
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 8), // Adds spacing between rows
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    register[index].weight,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  Text(
+                                    register[index].hours,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                  ],
-                ),
-              
-              ],
-              
+                );
+              },
             ),
-          ),
-        
-          SvgPicture.asset('assets/icons/trush-square.svg', width: 20, height: 20),
-        ],
-      ),
-    );
-  },
-),
-
           ],
         ),
       ),
@@ -133,7 +129,7 @@ ListView.separated(
   }
 
   // ignore: non_constant_identifier_names
-  Padding _Register() {
+  Padding _Register(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Row(
@@ -141,7 +137,7 @@ ListView.separated(
 
         children: [
           Text(
-            'Register',
+            'Activities',
             style: TextStyle(
               fontSize: 20,
               color: Color(0xFF2E553B),
@@ -169,7 +165,10 @@ ListView.separated(
                   width: 24,
                 ),
                 onPressed: () {
-                  // Handle notification click event
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ActivityScreen()),
+                  );
                 },
               ),
             ],
@@ -179,7 +178,7 @@ ListView.separated(
     );
   }
 
-  Row _button() {
+  Row _button(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
 
@@ -200,7 +199,14 @@ ListView.separated(
         ),
         SizedBox(width: 10),
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => (RewardPage()),
+              ), // Make sure ActivityScreen() exists
+            );
+          },
           style: ElevatedButton.styleFrom(
             backgroundColor: Color(0xFF2E553B), // Button color
             shape: RoundedRectangleBorder(
@@ -421,7 +427,7 @@ ListView.separated(
               ),
             ],
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 5),
           _buildChartContainer(),
         ],
       ),

@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:waste_to_wealth/bloc/user_bloc.dart';
 import 'package:waste_to_wealth/components/navigate_menu.dart';
+import 'package:waste_to_wealth/models/activity_model.dart';
+import 'package:waste_to_wealth/views/activity_screen.dart';
+import 'package:waste_to_wealth/views/home_screen.dart';
 import 'package:waste_to_wealth/views/login_screen.dart';
+import 'package:waste_to_wealth/views/reward.dart';
 
 
 
@@ -28,7 +32,7 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: Colors.white,
         ),
         debugShowCheckedModeBanner: false,
-        home: const LoginScreen(), // Change this to HomePage() if needed
+        home:  RewardPage(), // Change this to HomePage() if needed
       ),
     );
   }

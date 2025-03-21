@@ -33,7 +33,7 @@ class ApiService {
     return response.statusCode == 200;
   }
 
-  Future<List<Activity>> fetchActivities({int limit = 20}) async {
+  Future<List<ActivityModel>> fetchActivities({int limit = 20}) async {
     final token = await _storageService.getToken(); // Retrieve token
     if (token == null) {
       throw Exception('Token not found');
@@ -46,7 +46,7 @@ class ApiService {
 
     if (response.statusCode == 200) {
       List<dynamic> data = jsonDecode(response.body);
-      return data.map((json) => Activity.fromJson(json)).toList();
+      // return data.map((json) => Activity.fromJson(json)).toList();
     }
     return [];
   }
