@@ -10,6 +10,7 @@ import 'package:waste_to_wealth/views/login_screen.dart';
 import 'package:waste_to_wealth/views/reward.dart';
 
 import 'package:waste_to_wealth/views/pickup_screen.dart';
+import 'package:waste_to_wealth/views/social_screen.dart';
 
 
 
@@ -40,7 +41,7 @@ class MyApp extends StatelessWidget {
 
 
 
-        home:  PickupScreen(),
+        home:  SocialScreen(),
       ),
     );
   }
