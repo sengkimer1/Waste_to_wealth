@@ -4,9 +4,11 @@ import 'package:waste_to_wealth/bloc/user_bloc.dart';
 import 'package:waste_to_wealth/components/navigate_menu.dart';
 import 'package:waste_to_wealth/models/activity_model.dart';
 import 'package:waste_to_wealth/views/activity_screen.dart';
+import 'package:waste_to_wealth/views/editProfile_page.dart';
 import 'package:waste_to_wealth/views/home_screen.dart';
 import 'package:waste_to_wealth/views/history_screen.dart';
 import 'package:waste_to_wealth/views/login_screen.dart';
+import 'package:waste_to_wealth/views/profile_screen.dart';
 import 'package:waste_to_wealth/views/reward.dart';
 
 
@@ -34,9 +36,7 @@ class MyApp extends StatelessWidget {
         ),
         debugShowCheckedModeBanner: false,
 
-        home:  RewardPage(), // Change this to HomePage() if needed
-
-        home: const HistoryScreen(),
+        home:  ProfileScreen(), // Change this to HomePage() if needed
 
       ),
     );
