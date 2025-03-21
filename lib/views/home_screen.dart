@@ -23,7 +23,7 @@ class HomeScreen extends StatelessWidget {
       appBar: _buildAppBar(),
 
       body: Container(
-        color: Colors.white, // Background color
+        color: Colors.white,
         child: Column(
           children: [
             _buildChartData(),
