@@ -9,6 +9,9 @@ import 'package:waste_to_wealth/views/history_screen.dart';
 import 'package:waste_to_wealth/views/login_screen.dart';
 import 'package:waste_to_wealth/views/reward.dart';
 
+import 'package:waste_to_wealth/views/pickup_screen.dart';
+
+
 
 
 void main() {
@@ -34,10 +37,10 @@ class MyApp extends StatelessWidget {
         ),
         debugShowCheckedModeBanner: false,
 
-        home:  RewardPage(), // Change this to HomePage() if needed
 
-        home: const HistoryScreen(),
 
+
+        home:  PickupScreen(),
       ),
     );
   }
