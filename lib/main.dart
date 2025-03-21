@@ -11,6 +11,10 @@ import 'package:waste_to_wealth/views/login_screen.dart';
 import 'package:waste_to_wealth/views/profile_screen.dart';
 import 'package:waste_to_wealth/views/reward.dart';
 
+import 'package:waste_to_wealth/views/pickup_screen.dart';
+import 'package:waste_to_wealth/views/social_screen.dart';
+
+
 
 
 void main() {
@@ -35,8 +39,9 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: Colors.white,
         ),
         debugShowCheckedModeBanner: false,
-
         home:  ProfileScreen(), // Change this to HomePage() if needed
+
+
 
       ),
     );

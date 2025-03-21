@@ -30,7 +30,7 @@ class HistoryScreen extends StatelessWidget {
                     border: Border.all(color: Color(0xFF51BB20), width: 1),
                     borderRadius: BorderRadius.circular(
                       8,
-                    ), // Optional: rounded corners
+                    ), 
                   ),
 
                   child: Column(
