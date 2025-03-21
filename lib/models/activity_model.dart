@@ -1,43 +1,56 @@
-class Activity {
-  final int id;
-  final String userId;
-  final String? user;
-  final String title;
-  final String description;
-  final DateTime date;
-  final DateTime createdAt;
+import 'package:flutter/cupertino.dart';
+class ActivityModel {
+  String title;
+  String iconPath;
+  String weight;
+  String points;
+  String hours;
+  Color boxColor;
+  bool boxIsSelected;
 
-  Activity({
-    required this.id,
-    required this.userId,
-    this.user,
+  ActivityModel({
     required this.title,
-    required this.description,
-    required this.date,
-    required this.createdAt,
+    required this.iconPath,
+    required this.weight,
+    required this.points,
+    required this.hours,
+    required this.boxColor,
+    required this.boxIsSelected
+
+
   });
 
-  factory Activity.fromJson(Map<String, dynamic> json) {
-    return Activity(
-      id: json['id'],
-      userId: json['userId'],
-      user: json['user'],
-      title: json['title'],
-      description: json['description'],
-      date: DateTime.parse(json['date']),
-      createdAt: DateTime.parse(json['createdAt']),
-    );
-  }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'userId': userId,
-      'user': user,
-      'title': title,
-      'description': description,
-      'date': date.toIso8601String(),
-      'createdAt': createdAt.toIso8601String(),
-    };
+  static List < ActivityModel > getActivity() {
+    List <ActivityModel > activities = [];
+
+    activities.add(
+      ActivityModel(
+        title: 'Plastic collection',
+        iconPath: 'assets/icons/green-salad-svgrepo-com.svg',
+        weight: '3.5kg',
+        points: '+ 07 points',
+        hours: '2 hours ago',
+        boxColor: Color(0xffC58BF2),
+        boxIsSelected: false,
+
+      )
+    );
+
+     activities.add(
+      ActivityModel(
+        title: 'Plastic collection',
+        iconPath: 'assets/icons/green-salad-svgrepo-com.svg',
+        weight: '3.5kg',
+        points: '+ 07 points',
+        hours: '2 hours ago',
+        boxColor: Color(0xffC58BF2),
+        boxIsSelected: false,
+
+      )
+    );
+
+
+    return activities;
   }
 }
