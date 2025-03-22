@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:waste_to_wealth/models/points_model.dart';
 import 'package:waste_to_wealth/models/user_model.dart'; // Ensure this import exists
 import 'package:waste_to_wealth/models/activity_model.dart'; // Ensure this import exists
 import 'package:waste_to_wealth/services/strong_services.dart';
+
 
 class ApiService {
   static const String baseUrl = 'https://pay1.jetdev.life';
@@ -33,7 +35,7 @@ class ApiService {
     return response.statusCode == 200;
   }
 
-  Future<List<ActivityModel>> fetchActivities({int limit = 20}) async {
+  Future<List<Activity>> fetchActivities({int limit = 20}) async {
     final token = await _storageService.getToken(); // Retrieve token
     if (token == null) {
       throw Exception('Token not found');
@@ -46,8 +48,48 @@ class ApiService {
 
     if (response.statusCode == 200) {
       List<dynamic> data = jsonDecode(response.body);
-      // return data.map((json) => Activity.fromJson(json)).toList();
+      return data.map((json) => Activity.fromJson(json)).toList();
     }
     return [];
   }
+
+
+  Future<List<Activity>> fetchActivitie({int limit = 2}) async {
+    final token = await _storageService.getToken(); // Retrieve token
+    if (token == null) {
+      throw Exception('Token not found');
+    }
+
+    final response = await http.get(
+      Uri.parse('$baseUrl/api/account/activity?limit=$limit'),
+      headers: {'Authorization': 'Bearer $token'}, // Use token
+    );
+
+    if (response.statusCode == 200) {
+      List<dynamic> data = jsonDecode(response.body);
+      return data.map((json) => Activity.fromJson(json)).take(limit).toList();
+    }
+    return [];
+  }
+
+
+  Future<List<PointsModel>> fetchPoint() async {
+  final token = await _storageService.getToken(); // Retrieve token
+  if (token == null) {
+    throw Exception('Token not found');
+  }
+
+  final response = await http.get(
+    Uri.parse('$baseUrl/api/account/points'),
+    headers: {'Authorization': 'Bearer $token'}, // Use token
+  );
+
+  if (response.statusCode == 200) {
+    List<dynamic> data = jsonDecode(response.body);
+    return data.map((json) => PointsModel.fromJson(json)).toList();
+  } else {
+    throw Exception('Failed to load points');
+  }
+}
+
 }

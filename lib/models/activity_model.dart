@@ -1,56 +1,31 @@
-import 'package:flutter/cupertino.dart';
-class ActivityModel {
-  String title;
-  String iconPath;
-  String weight;
-  String points;
-  String hours;
-  Color boxColor;
-  bool boxIsSelected;
+class Activity {
+  final String estimateWeight;
+  final String title;
+  final String points;
+  final DateTime date;
 
-  ActivityModel({
+  Activity({
+    required this.estimateWeight,
     required this.title,
-    required this.iconPath,
-    required this.weight,
     required this.points,
-    required this.hours,
-    required this.boxColor,
-    required this.boxIsSelected
-
-
+    required this.date,
   });
 
-
-  static List < ActivityModel > getActivity() {
-    List <ActivityModel > activities = [];
-
-    activities.add(
-      ActivityModel(
-        title: 'Plastic collection',
-        iconPath: 'assets/icons/green-salad-svgrepo-com.svg',
-        weight: '3.5kg',
-        points: '+ 07 points',
-        hours: '2 hours ago',
-        boxColor: Color(0xffC58BF2),
-        boxIsSelected: false,
-
-      )
+  factory Activity.fromJson(Map<String, dynamic> json) {
+    return Activity(
+      estimateWeight: json['estimateWeight']?.toString() ?? '', 
+      title: json['title'] ?? '',
+      points: json['points']?.toString() ?? '', 
+      date: json['date'] != null ? DateTime.parse(json['date']) : DateTime.now(),
     );
+  }
 
-     activities.add(
-      ActivityModel(
-        title: 'Plastic collection',
-        iconPath: 'assets/icons/green-salad-svgrepo-com.svg',
-        weight: '3.5kg',
-        points: '+ 07 points',
-        hours: '2 hours ago',
-        boxColor: Color(0xffC58BF2),
-        boxIsSelected: false,
-
-      )
-    );
-
-
-    return activities;
+  Map<String, dynamic> toJson() {
+    return {
+      'estimateWeight': estimateWeight,
+      'title': title,
+      'points': points,
+      'date': date.toIso8601String(),
+    };
   }
 }

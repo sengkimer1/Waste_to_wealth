@@ -1,27 +1,37 @@
-import 'dart:js_interop';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:waste_to_wealth/models/register_model.dart';
+import 'package:waste_to_wealth/controllers/activities_controller.dart';
+import 'package:waste_to_wealth/controllers/points_controller.dart';
+import 'package:waste_to_wealth/models/activity_model.dart';
+import 'package:waste_to_wealth/models/points_model.dart';
 import 'package:waste_to_wealth/views/activity_screen.dart';
 import 'package:waste_to_wealth/views/reward.dart';
 
-// ignore: must_be_immutable
-class HomeScreen extends StatelessWidget {
-  HomeScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
 
-  List<RegisterModel> register = [];
+class _HomeScreenState extends State<HomeScreen> {
+  final ActivitiesController _activitiesController = ActivitiesController();
+  final PointsController _pointsController = PointsController();
 
-  void _getInitialInfo() {
-    register = RegisterModel.getRegister();
+  late Future<List<PointsModel>> _points;
+  late Future<List<Activity>> _activities;
+
+  @override
+  void initState() {
+    super.initState();
+    _activities = _activitiesController.fetchActivitie();
+    _points = _pointsController.fetchPoint();
+    // Fetch activities asynchronously
   }
 
   @override
   Widget build(BuildContext context) {
-    _getInitialInfo();
     return Scaffold(
       appBar: _buildAppBar(),
-
       body: Container(
         color: Colors.white,
         child: Column(
@@ -33,92 +43,102 @@ class HomeScreen extends StatelessWidget {
             _button(context),
             SizedBox(height: 20),
             _Register(context),
-            ListView.separated(
-              itemCount: register.length,
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              separatorBuilder: (context, index) => SizedBox(height: 10),
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              itemBuilder: (context, index) {
-                return Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  elevation: 4, // Adds a shadow to the card
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.delete, // Use the delete icon
-                          size: 40, // Set the icon size
-                          color: Colors.green, // Set the icon color
+            // FutureBuilder to display list of activities
+            FutureBuilder<List<Activity>>(
+              future: _activities,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return Center(child: Text('No activities found.'));
+                } else {
+                  List<Activity> activities = snapshot.data!;
+                  return ListView.separated(
+                    itemCount: activities.length,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    separatorBuilder: (context, index) => SizedBox(height: 10),
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    itemBuilder: (context, index) {
+                      Activity activity = activities[index];
+                      return Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
                         ),
-                        SizedBox(
-                          width: 12,
-                        ), // Adds space between the icon and the text
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                        elevation: 4,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                            vertical: 12,
+                            horizontal: 16,
+                          ),
+                          child: Row(
                             children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      register[index].title,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.black,
-                                        fontSize:
-                                            14, // Increased font size for readability
-                                        overflow:
-                                            TextOverflow
-                                                .ellipsis, // Prevents overflow if the title is long
-                                      ),
+                              Icon(Icons.star, size: 50, color: Colors.green),
+                              SizedBox(width: 8),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            activity.title,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.black,
+                                              fontSize: 14,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ),
+                                        ),
+                                        Text(
+                                          activity.points,
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            color: Color(0xFF51BB20),
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                  Text(
-                                    register[index].points,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      color: Color(0xFF51BB20),
-                                      fontSize: 12, // Adjusted for consistency
+                                    SizedBox(height: 8),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          '${activity.estimateWeight}Kg',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                        Text(
+                                          'Created: ${activity.date.toLocal().toString().split(' ')[0]}',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 8), // Adds spacing between rows
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    register[index].weight,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black,
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                  Text(
-                                    register[index].hours,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black,
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ],
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                );
+                      );
+                    },
+                  );
+                }
               },
             ),
           ],
@@ -127,13 +147,11 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // ignore: non_constant_identifier_names
   Padding _Register(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
         children: [
           Text(
             'Activities',
@@ -143,20 +161,16 @@ class HomeScreen extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-
           Row(
-            mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text(
                 'See all',
-
                 style: TextStyle(
                   fontSize: 12,
                   color: Color(0xFF274CC7),
                   fontWeight: FontWeight.bold,
                 ),
               ),
-
               IconButton(
                 icon: SvgPicture.asset(
                   'assets/icons/right-arrow.svg',
@@ -180,12 +194,11 @@ class HomeScreen extends StatelessWidget {
   Row _button(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-
       children: [
         ElevatedButton(
           onPressed: () {},
           style: ElevatedButton.styleFrom(
-            backgroundColor: Color(0xFF51BB20), // Button color
+            backgroundColor: Color(0xFF51BB20),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
             ),
@@ -201,13 +214,11 @@ class HomeScreen extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(
-                builder: (context) => (RewardPage()),
-              ), // Make sure ActivityScreen() exists
+              MaterialPageRoute(builder: (context) => RewardPage()),
             );
           },
           style: ElevatedButton.styleFrom(
-            backgroundColor: Color(0xFF2E553B), // Button color
+            backgroundColor: Color(0xFF2E553B),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
             ),
@@ -240,7 +251,120 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  /// Line Chart Data
+  Widget _buildChartContainer() {
+    return Container(
+      width: double.infinity,
+      height: 300,
+      decoration: BoxDecoration(
+        color: const Color(0xFFC5EBB3),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    Text(
+                      'Total Chart',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      'Point',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 10.0),
+                  child: const Text(
+                    'This Month',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Expanded(child: _buildLineChart()),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Padding _buildChartData() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 30),
+          const Text(
+            'Total Point',
+            style: TextStyle(
+              fontSize: 24,
+              color: Colors.black,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 8),
+          FutureBuilder<List<PointsModel>>(
+            future: _points,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Center(child: Text('Error: ${snapshot.error}'));
+              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return Center(child: Text('No data available.'));
+              } else {
+                return Column(
+                  children:
+                      snapshot.data!.map((points) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              points.totalPoints as String,
+                              style: TextStyle(
+                                fontSize: 32,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              points.cashEquivalent as String,
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        );
+                      }).toList(),
+                );
+              }
+            },
+          ),
+          const SizedBox(height: 5),
+          _buildChartContainer(),
+        ],
+      ),
+    );
+  }
+
   Widget _buildLineChart() {
     return LineChart(
       LineChartData(
@@ -261,7 +385,6 @@ class HomeScreen extends StatelessWidget {
                   'Jul',
                   'Aug',
                 ];
-
                 int index = value.toInt();
                 if (index >= 0 && index < months.length && value % 1 == 0) {
                   return SideTitleWidget(
@@ -332,102 +455,6 @@ class HomeScreen extends StatelessWidget {
             isStrokeCapRound: true,
             dotData: FlDotData(show: false),
           ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildChartContainer() {
-    return Container(
-      width: double.infinity,
-      height: 300,
-      decoration: BoxDecoration(
-        color: const Color(0xFFC5EBB3),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text(
-                      'Total Chart',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      'Point', // Added "Point" below "Total Chart"
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 10.0), // Added margin
-                  child: const Text(
-                    'This Month',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Expanded(child: _buildLineChart()),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Padding _buildChartData() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 30),
-          const Text(
-            'Total Point',
-            style: TextStyle(
-              fontSize: 24,
-              color: Colors.black,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Text(
-                '50',
-                style: TextStyle(
-                  fontSize: 32,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Text(
-                '\$1200',
-                style: TextStyle(
-                  fontSize: 15,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 5),
-          _buildChartContainer(),
         ],
       ),
     );

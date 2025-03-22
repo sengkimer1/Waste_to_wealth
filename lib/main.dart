@@ -9,6 +9,7 @@ import 'package:waste_to_wealth/views/home_screen.dart';
 import 'package:waste_to_wealth/views/history_screen.dart';
 import 'package:waste_to_wealth/views/login_screen.dart';
 import 'package:waste_to_wealth/views/profile_screen.dart';
+import 'package:waste_to_wealth/views/redeem_history.dart';
 import 'package:waste_to_wealth/views/reward.dart';
 
 import 'package:waste_to_wealth/views/pickup_screen.dart';
@@ -39,7 +40,7 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: Colors.white,
         ),
         debugShowCheckedModeBanner: false,
-        home:  ProfileScreen(), // Change this to HomePage() if needed
+        home:  LoginScreen(), // Change this to HomePage() if needed
 
 
 
