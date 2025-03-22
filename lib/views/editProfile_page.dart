@@ -11,23 +11,23 @@ class EditProfilePage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: GestureDetector(
-          onTap: () {},
-          child: Container(
-            margin: EdgeInsets.only(left: 10),
-            alignment: Alignment.center,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
-            child: IconButton(
-              icon: Icon(Icons.arrow_back, color: Colors.black),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ProfileScreen()),
-                );
-              },
-            ),
-          ),
-        ),
+        // leading: GestureDetector(
+        //   onTap: () {},
+        //   child: Container(
+        //     margin: EdgeInsets.only(left: 10),
+        //     alignment: Alignment.center,
+        //     decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+        //     child: IconButton(
+        //       icon: Icon(Icons.arrow_back, color: Colors.black),
+        //       onPressed: () {
+        //         Navigator.push(
+        //           context,
+        //           MaterialPageRoute(builder: (context) => ProfileScreen()),
+        //         );
+        //       },
+        //     ),
+        //   ),
+        // ),
         title: const Text(
           "Edit Profile",
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),

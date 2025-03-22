@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:waste_to_wealth/models/reward_model.dart';
 import 'package:waste_to_wealth/views/home_screen.dart';
+import 'package:waste_to_wealth/views/redeem_history.dart';
 
 class RewardPage extends StatefulWidget {
   const RewardPage({super.key});
@@ -98,7 +99,9 @@ class _RewardPageState extends State<RewardPage> {
                           ],
                         ),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Color(0xFF2E553B),
                             foregroundColor: Colors.white,
@@ -209,23 +212,23 @@ class _RewardPageState extends State<RewardPage> {
         ),
       ),
       centerTitle: false,
-      leading: GestureDetector(
-        onTap: () {},
-        child: Container(
-          margin: EdgeInsets.only(left: 10),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
-          child: IconButton(
-            icon: Icon(Icons.arrow_back, color: Color(0xFF086C74)),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => HomeScreen()),
-              );
-            },
-          ),
-        ),
-      ),
+      // leading: GestureDetector(
+      //   onTap: () {},
+      //   child: Container(
+      //     margin: EdgeInsets.only(left: 10),
+      //     alignment: Alignment.center,
+      //     decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+      //     child: IconButton(
+      //       icon: Icon(Icons.arrow_back, color: Color(0xFF086C74)),
+      //       onPressed: () {
+      //         Navigator.push(
+      //           context,
+      //           MaterialPageRoute(builder: (context) => HomeScreen()),
+      //         );
+      //       },
+      //     ),
+      //   ),
+      // ),
       actions: [
         GestureDetector(
           onTap: () {},
@@ -236,12 +239,12 @@ class _RewardPageState extends State<RewardPage> {
             child: IconButton(
               icon: Icon(Icons.history, color: Color(0xFF086C74)),
               onPressed: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => SocialWidget(),
-                //   ),
-                // );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => RedeemHistory(),
+                  ),
+                );
               },
             ),
           ),
