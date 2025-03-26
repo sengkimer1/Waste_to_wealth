@@ -25,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _activities = _activitiesController.fetchActivitie();
+    _activities = _activitiesController.fetchActivities();
     _points = _pointsController.fetchPoint();
     // Fetch activities asynchronously
   }
@@ -39,11 +39,11 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           children: [
             _buildChartData(),
-            SizedBox(height: 20),
+            SizedBox(height: 15),
             _buildQuickAction(),
-            SizedBox(height: 20),
+            SizedBox(height: 15),
             _button(context),
-            SizedBox(height: 20),
+            SizedBox(height: 15),
             _Register(context),
             // FutureBuilder to display list of activities
             FutureBuilder<List<Activity>>(

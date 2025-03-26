@@ -18,7 +18,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
     super.initState();
     _activities =
         _activityController
-            .fetchActivities(); // Fetch activities asynchronously
+            .fetchActivitie(); // Fetch activities asynchronously
 
     _activities = _activityController.fetchActivitie(); // Fetch activities asynchronously
   }

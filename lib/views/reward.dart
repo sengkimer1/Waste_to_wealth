@@ -33,14 +33,8 @@ class _RewardPageState extends State<RewardPage> {
             _BoxReward(),
             const SizedBox(height: 25),
             Container(
-
-              margin: const EdgeInsets.only(left: 10),
               alignment: Alignment.centerLeft,
               child: const Text(
-
-              margin: EdgeInsets.only(right: 280),
-              child: Text(
-
                 'All Rewards',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
@@ -95,14 +89,14 @@ class _RewardPageState extends State<RewardPage> {
                                   ),
                                   const SizedBox(height: 5),
                                   Text(
-                                    reward.exchangePoint, // Use exchangePoint from API
+                                    reward.exchangePoint,
                                     style: const TextStyle(
                                       fontSize: 23,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   Text(
-                                    reward.description, // Display description
+                                    reward.description,
                                     style: const TextStyle(
                                       color: Colors.grey,
                                       fontWeight: FontWeight.w600,
@@ -112,9 +106,7 @@ class _RewardPageState extends State<RewardPage> {
                                 ],
                               ),
                               ElevatedButton(
-                                onPressed: () {
-                                  // TODO: Implement redeem functionality
-                                },
+                                onPressed: () {},
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: const Color(0xFF2E553B),
                                   foregroundColor: Colors.white,
@@ -163,7 +155,7 @@ class _RewardPageState extends State<RewardPage> {
               ),
               const SizedBox(height: 8),
               const Text(
-                "100 Point", // TODO: Fetch real points from API if available
+                "100 Point",
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -182,22 +174,17 @@ class _RewardPageState extends State<RewardPage> {
                     ),
                   ),
                   onPressed: () {
-                    // TODO: Implement cash-out functionality
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => PopupScreen()),
+                    );
                   },
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => PopupScreen()),
-                      );
-                    },
-                    child: const Text(
-                      "Cash out",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
+                  child: const Text(
+                    "Cash out",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
                     ),
                   ),
                 ),
@@ -235,43 +222,15 @@ class _RewardPageState extends State<RewardPage> {
           fontWeight: FontWeight.bold,
         ),
       ),
-      centerTitle: false,
-      // leading: GestureDetector(
-      //   onTap: () {},
-      //   child: Container(
-      //     margin: EdgeInsets.only(left: 10),
-      //     alignment: Alignment.center,
-      //     decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
-      //     child: IconButton(
-      //       icon: Icon(Icons.arrow_back, color: Color(0xFF086C74)),
-      //       onPressed: () {
-      //         Navigator.push(
-      //           context,
-      //           MaterialPageRoute(builder: (context) => HomeScreen()),
-      //         );
-      //       },
-      //     ),
-      //   ),
-      // ),
       actions: [
-        GestureDetector(
-          onTap: () {},
-          child: Container(
-            margin: EdgeInsets.only(right: 20),
-            alignment: Alignment.center,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
-            child: IconButton(
-              icon: Icon(Icons.history, color: Color(0xFF086C74)),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => RedeemHistory(),
-                  ),
-                );
-              },
-            ),
-          ),
+        IconButton(
+          icon: const Icon(Icons.history, color: Color(0xFF086C74)),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => RedeemHistory()),
+            );
+          },
         ),
       ],
     );

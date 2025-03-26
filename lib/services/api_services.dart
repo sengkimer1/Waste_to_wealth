@@ -42,24 +42,119 @@ class ApiService {
     return response.statusCode == 200;
   }
 
-  // Fetch activities
-  Future<List<Activity>> fetchActivitie({int limit = 20}) async {
-    final token = await _storageService.getToken();
+
+   Future<List<Activity>> fetchActivitie({int limit = 20}) async {
+    final token = await _storageService.getToken(); // Retrieve token
     if (token == null) {
       throw Exception('Token not found');
     }
 
     final response = await http.get(
-      Uri.parse('$baseUrl/api/activities?limit=$limit'),
-      headers: {'Authorization': 'Bearer $token'},
+      Uri.parse('$baseUrl/api/account/activity?limit=$limit'),
+      headers: {'Authorization': 'Bearer $token'}, // Use token
     );
 
     if (response.statusCode == 200) {
       List<dynamic> data = jsonDecode(response.body);
-      return data.map((json) => Activity.fromJson(json)).toList();
-    } else {
-      throw Exception('Failed to fetch activities');
+      return data.map((json) => Activity.fromJson(json)).take(limit).toList();
     }
+    return [];
+  }
+
+
+  Future<List<Activity>> fetchActivities({int limit = 2}) async {
+    final token = await _storageService.getToken(); // Retrieve token
+    if (token == null) {
+      throw Exception('Token not found');
+    }
+
+    final response = await http.get(
+      Uri.parse('$baseUrl/api/account/activity?limit=$limit'),
+      headers: {'Authorization': 'Bearer $token'}, // Use token
+    );
+
+    if (response.statusCode == 200) {
+      List<dynamic> data = jsonDecode(response.body);
+      return data.map((json) => Activity.fromJson(json)).take(limit).toList();
+    }
+    return [];
+  }
+
+Future<List<ProfileModel>> fetchUserProfile() async {
+  final token = await _storageService.getToken(); // Retrieve token
+  if (token == null) {
+    throw Exception('Token not found');
+  }
+
+  final response = await http.get(
+    Uri.parse('$baseUrl/api/account/user'),
+    headers: {'Authorization': 'Bearer $token'}, // Use token
+  );
+
+  if (response.statusCode == 200) {
+    final jsonResponse = jsonDecode(response.body);
+
+    if (jsonResponse is List) {
+      // If response is already a list
+      return jsonResponse.map((json) => ProfileModel.fromJson(json)).toList();
+    } else if (jsonResponse is Map<String, dynamic>) {
+      // If response is an object, convert it into a list with a single element
+      return [ProfileModel.fromJson(jsonResponse)];
+    } else {
+      throw Exception('Unexpected data format');
+    }
+  } else {
+    throw Exception('Failed to load points');
+  }
+}
+
+
+
+Future<List<PointsModel>> fetchPoint() async {
+  final token = await _storageService.getToken(); // Retrieve token
+  if (token == null) {
+    throw Exception('Token not found');
+  }
+
+  final response = await http.get(
+    Uri.parse('$baseUrl/api/account/points'),
+    headers: {'Authorization': 'Bearer $token'}, // Use token
+  );
+
+  if (response.statusCode == 200) {
+    final jsonResponse = jsonDecode(response.body);
+
+    if (jsonResponse is List) {
+      // If response is already a list
+      return jsonResponse.map((json) => PointsModel.fromJson(json)).toList();
+    } else if (jsonResponse is Map<String, dynamic>) {
+      // If response is an object, convert it into a list with a single element
+      return [PointsModel.fromJson(jsonResponse)];
+    } else {
+      throw Exception('Unexpected data format');
+    }
+  } else {
+    throw Exception('Failed to load points');
+  }
+}
+
+
+Future<List<RewardModel>> fetchReward() async {
+    final token = await _storageService.getToken(); // Retrieve token
+    if (token == null) {
+      throw Exception('Token not found');
+    }
+
+    final response = await http.get(
+      Uri.parse('$baseUrl/api/reward/listReward'),
+      headers: {'Authorization': 'Bearer $token'}, // Use token
+    );
+
+    if (response.statusCode == 200) {
+      List<dynamic> data = jsonDecode(response.body);
+      return data.map((json) => RewardModel.fromJson(json)).toList();
+    }
+    return [];
   }
 
   // Create new schedule
@@ -121,40 +216,6 @@ class ApiService {
     }
   }
 
-Future<List<ProfileModel>> fetchUserProfile() async {
-  final token = await _storageService.getToken(); // Retrieve token
-  if (token == null) {
-    throw Exception('Token not found');
-  }
-
-  final response = await http.get(
-    Uri.parse('$baseUrl/api/account/user'),
-    headers: {'Authorization': 'Bearer $token'}, // Use token
-  );
-
-  if (response.statusCode == 200) {
-    final jsonResponse = jsonDecode(response.body);
-
-    if (jsonResponse is List) {
-      // If response is already a list
-      return jsonResponse.map((json) => ProfileModel.fromJson(json)).toList();
-    } else if (jsonResponse is Map<String, dynamic>) {
-      // If response is an object, convert it into a list with a single element
-      return [ProfileModel.fromJson(jsonResponse)];
-    } else {
-      throw Exception('Unexpected data format');
-    }
-  } else {
-    throw Exception('Failed to load points');
-  }
-}
-
-
-
-Future<List<PointsModel>> fetchPoint() async {
-  final token = await _storageService.getToken(); // Retrieve token
-  if (token == null) {
-    throw Exception('Token not found');
     
   // Cancel a pickup
   Future<bool> cancelPickup(int pickupId) async {
@@ -178,64 +239,8 @@ Future<List<PointsModel>> fetchPoint() async {
       throw Exception('Failed to cancel pickup: $error');
     }
 
-  }
 
-  // Fetch points
-  Future<List<PointsModel>> fetchPoint() async {
-    final token = await _storageService.getToken();
-    if (token == null) {
-      throw Exception('Token not found');
-    }
-
-
-  if (response.statusCode == 200) {
-    final jsonResponse = jsonDecode(response.body);
-
-    if (jsonResponse is List) {
-      // If response is already a list
-      return jsonResponse.map((json) => PointsModel.fromJson(json)).toList();
-    } else if (jsonResponse is Map<String, dynamic>) {
-      // If response is an object, convert it into a list with a single element
-      return [PointsModel.fromJson(jsonResponse)];
-    } else {
-      throw Exception('Unexpected data format');
-    }
-  } else {
-    throw Exception('Failed to load points');
-  }
+ 
 }
 
-
-Future<List<RewardModel>> fetchReward() async {
-    final token = await _storageService.getToken(); // Retrieve token
-    if (token == null) {
-      throw Exception('Token not found');
-    }
-
-    final response = await http.get(
-      Uri.parse('$baseUrl/api/reward/listReward'),
-      headers: {'Authorization': 'Bearer $token'}, // Use token
-    );
-
-    if (response.statusCode == 200) {
-      List<dynamic> data = jsonDecode(response.body);
-      return data.map((json) => RewardModel.fromJson(json)).toList();
-    }
-    return [];
-  }
-
 }
-    final response = await http.get(
-      Uri.parse('$baseUrl/api/account/points'),
-      headers: {'Authorization': 'Bearer $token'},
-    );
-
-    if (response.statusCode == 200) {
-      List<dynamic> data = jsonDecode(response.body);
-      return data.map((json) => PointsModel.fromJson(json)).toList();
-    } else {
-      throw Exception('Failed to load points');
-    }
-  }
-}
-
