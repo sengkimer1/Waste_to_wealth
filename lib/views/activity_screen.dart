@@ -15,7 +15,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
   @override
   void initState() {
     super.initState();
-    _activities = _activityController.fetchActivities(); // Fetch activities asynchronously
+    _activities = _activityController.fetchActivitie(); // Fetch activities asynchronously
   }
 
   @override
