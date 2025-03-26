@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:waste_to_wealth/controllers/pickup_contraller.dart';
+import 'package:waste_to_wealth/models/pickup_model.dart';
+import 'package:waste_to_wealth/views/history_screen.dart';
 
-enum RecurringPickupOption {
-  oneDay,
-  oneWeek,
-  twoWeeks,
-  oneMonth,
-  oneYear,
-  other,
-}
+enum RecurringPickupOption { oneDay, oneWeek, twoWeeks, oneMonth, oneYear }
+
+final PickupController _pickupController = PickupController();
 
 class PickupScreen extends StatefulWidget {
   @override
@@ -17,51 +15,40 @@ class PickupScreen extends StatefulWidget {
 }
 
 class _PickupScreenState extends State<PickupScreen> {
-  DateTime? selectedDate;
-  TimeOfDay? selectedTime;
-  TextEditingController dateController = TextEditingController();
-  TextEditingController timeController = TextEditingController();
-  TextEditingController wasteTypeController = TextEditingController();
-  RecurringPickupOption? selectedRecurringOption;
-  TextEditingController otherRecurringController = TextEditingController();
-
+  DateTime selectedDate = DateTime.now();
   List<String> selectedWasteTypes = [];
+  String selectedWeightUnit = "(kg)";
+  bool recurringMonth = false;
+  bool recurringWeek = false;
+  bool recurringDay = false;
+  TextEditingController dateController = TextEditingController();
+  TextEditingController wasteTypeController = TextEditingController();
+  TextEditingController weightController = TextEditingController();
+
+  // List of waste types
   final List<String> wasteTypes = [
-    'Plastic',
-    'Metal',
-    'Paper',
-    'Glass',
-    'Electronic',
+    "Paper",
+    "Plastic",
+    "Metal",
+    "Glass",
+    "Electronic",
   ];
+
+  RecurringPickupOption? selectedRecurringOption;
 
   // Function to show Date Picker
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: selectedDate ?? DateTime.now(),
+      initialDate: selectedDate,
       firstDate: DateTime(2000),
       lastDate: DateTime(2101),
     );
 
-    if (picked != null && picked != selectedDate) {
+    if (picked != null) {
       setState(() {
         selectedDate = picked;
         dateController.text = DateFormat('MM/dd/yyyy').format(picked);
-      });
-    }
-  }
-
-  // Function to show Time Picker
-  Future<void> _selectTime(BuildContext context) async {
-    final TimeOfDay? picked = await showTimePicker(
-      context: context,
-      initialTime: selectedTime ?? TimeOfDay.now(),
-    );
-
-    if (picked != null && picked != selectedTime) {
-      setState(() {
-        selectedTime = picked;
-        timeController.text = picked.format(context);
       });
     }
   }
@@ -73,9 +60,7 @@ class _PickupScreenState extends State<PickupScreen> {
       builder: (BuildContext context) {
         return MultiSelectDialog(
           wasteTypes: wasteTypes,
-          selectedWasteTypes: List.from(
-            selectedWasteTypes,
-          ), // Clone list to avoid direct mutation
+          selectedWasteTypes: List.from(selectedWasteTypes),
         );
       },
     );
@@ -85,6 +70,33 @@ class _PickupScreenState extends State<PickupScreen> {
         selectedWasteTypes = selected;
         wasteTypeController.text = selected.join(', ');
       });
+    }
+  }
+
+  // Function to schedule Pickup
+  Future<void> _schedulePickup() async {
+    try {
+      final weightValue =
+          double.tryParse(
+            weightController.text.replaceAll(RegExp(r'[^0-9.]'), ''),
+          ) ??
+          0.0;
+
+      final _ = await _pickupController.createNewSchedule(
+        userId: "1",
+        date: selectedDate.toIso8601String(),
+        wasteTypes: selectedWasteTypes,
+        estimateWeight: weightValue,
+        recurring: recurringMonth || recurringWeek || recurringDay,
+      );
+
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Pickup scheduled successfully!')));
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Failed to schedule pickup: $e')));
     }
   }
 
@@ -141,7 +153,12 @@ class _PickupScreenState extends State<PickupScreen> {
                 // Pickup History Button
                 ElevatedButton(
                   onPressed: () {
-                    // Add action here
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const HistoryScreen(),
+                      ),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF51BB20),
@@ -190,50 +207,7 @@ class _PickupScreenState extends State<PickupScreen> {
 
             const SizedBox(height: 10),
 
-            // Time Picker
-            const Text(
-              "Select Time",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),
-            TextField(
-              controller: timeController,
-              readOnly: true,
-              decoration: InputDecoration(
-                hintText: "Time",
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                suffixIcon: IconButton(
-                  icon: SvgPicture.asset(
-                    'assets/icons/time-alarm.svg',
-                    width: 20,
-                    height: 20,
-                  ),
-                  onPressed: () => _selectTime(context),
-                ),
-              ),
-              onTap: () => _selectTime(context),
-            ),
-
-            const SizedBox(height: 10),
-            const Text(
-              "Estimate weight/volume",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),
-            TextField(
-              decoration: InputDecoration(
-                hintText: "Please put your weight/volume",
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-            ),
-
             // Waste Type Selection
-            const SizedBox(height: 10),
-
             const Text(
               "Waste Type (Multiple Selection)",
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -261,10 +235,27 @@ class _PickupScreenState extends State<PickupScreen> {
 
             const SizedBox(height: 10),
 
-            // Recurring Pickup Section
+            // Weight Input
             const Text(
-              "Recurring Pickup",
+              "Estimate Weight",
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10),
+            TextField(
+              controller: weightController,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                hintText: "Enter weight in kg",
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 10),
+            Text(
+              "Recurring Pickup",
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
             _buildRadioOption(RecurringPickupOption.oneDay, "1 Day"),
@@ -272,35 +263,33 @@ class _PickupScreenState extends State<PickupScreen> {
             _buildRadioOption(RecurringPickupOption.twoWeeks, "2 Weeks"),
             _buildRadioOption(RecurringPickupOption.oneMonth, "1 Month"),
             _buildRadioOption(RecurringPickupOption.oneYear, "1 Year"),
-
-            RadioListTile<RecurringPickupOption>(
-              title: const Text("Other"),
-              value: RecurringPickupOption.other,
-              groupValue: selectedRecurringOption,
-              onChanged: (RecurringPickupOption? value) {
-                setState(() {
-                  selectedRecurringOption = value;
-                });
-              },
+            // Recurring Pickup Section
+            SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Recurring ",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                Switch(
+                  value: selectedRecurringOption != null,
+                  onChanged:
+                      (value) => setState(
+                        () =>
+                            selectedRecurringOption =
+                                value ? RecurringPickupOption.oneDay : null,
+                      ),
+                ),
+              ],
             ),
 
-            if (selectedRecurringOption == RecurringPickupOption.other)
-              Padding(
-                padding: const EdgeInsets.only(left: 40, right: 10, bottom: 10),
-                child: TextField(
-                  controller: otherRecurringController,
-                  decoration: const InputDecoration(
-                    hintText: "Enter custom interval",
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-              ),
             const SizedBox(height: 20),
             Center(
               child: Container(
                 width: 350,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: _schedulePickup,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xF32E553B),
                     padding: const EdgeInsets.symmetric(vertical: 20),
@@ -362,7 +351,9 @@ class _MultiSelectDialogState extends State<MultiSelectDialog> {
       ),
       actions: [
         TextButton(
-          onPressed: () => Navigator.pop(context, selectedWasteTypes),
+          onPressed: () {
+            Navigator.of(context).pop(selectedWasteTypes);
+          },
           child: const Text('OK'),
         ),
       ],

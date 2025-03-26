@@ -5,6 +5,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:waste_to_wealth/models/register_model.dart';
 import 'package:waste_to_wealth/views/activity_screen.dart';
 import 'package:waste_to_wealth/views/reward.dart';
+import 'package:waste_to_wealth/views/pickup_screen.dart';
 
 // ignore: must_be_immutable
 class HomeScreen extends StatelessWidget {
@@ -183,7 +184,12 @@ class HomeScreen extends StatelessWidget {
 
       children: [
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => PickupScreen()),
+              );
+          },
           style: ElevatedButton.styleFrom(
             backgroundColor: Color(0xFF51BB20), // Button color
             shape: RoundedRectangleBorder(
@@ -395,7 +401,7 @@ class HomeScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 30),
+          const SizedBox(height: 10),
           const Text(
             'Total Point',
             style: TextStyle(
