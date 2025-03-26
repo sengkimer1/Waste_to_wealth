@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:waste_to_wealth/controllers/reward_controller.dart';
 import 'package:waste_to_wealth/models/reward_model.dart';
-import 'package:waste_to_wealth/views/home_screen.dart';
 import 'package:waste_to_wealth/views/redeem_history.dart';
 
 class RewardPage extends StatefulWidget {
@@ -11,18 +11,13 @@ class RewardPage extends StatefulWidget {
 }
 
 class _RewardPageState extends State<RewardPage> {
-  List<RewardModel> rewards = [];
+  final RewardController _rewardController = RewardController();
+  late Future<List<RewardModel>> _rewards;
 
   @override
   void initState() {
     super.initState();
-    _getInitialInfo();
-  }
-
-  void _getInitialInfo() {
-    setState(() {
-      rewards = RewardModel.getReward();
-    });
+    _rewards = _rewardController.fetchReward(); // Fetch rewards on initialization
   }
 
   @override
@@ -35,85 +30,100 @@ class _RewardPageState extends State<RewardPage> {
           children: [
             _rewardHeader(),
             _BoxReward(),
-            SizedBox(height: 25),
+            const SizedBox(height: 25),
             Container(
-              margin: EdgeInsets.only(right: 360),
-              child: Text(
+              margin: const EdgeInsets.only(left: 10),
+              alignment: Alignment.centerLeft,
+              child: const Text(
                 'All Rewards',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
             const SizedBox(height: 5),
             Expanded(
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.9,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                ),
-                itemCount: rewards.length,
-                itemBuilder: (context, index) {
-                  final reward = rewards[index];
-                  return Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.green, width: 1.5),
-                      borderRadius: BorderRadius.circular(15),
-                      color: reward.boxColor.withOpacity(0.1),
-                    ),
-                    padding: const EdgeInsets.all(12),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Icon(
-                          rewards[index].icon, // Get the icon from the model
-                          size: 50,
-                          color: Colors.green,
-                        ),
-                        Column(
-                          children: [
-                            Text(
-                              reward.title,
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                            const SizedBox(height: 5),
-                            Text(
-                              reward.money,
-                              style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-
-                            Text(
-                              reward.points,
-                              style: const TextStyle(
-                                color: Colors.grey,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ],
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xFF2E553B),
-                            foregroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
+              child: FutureBuilder<List<RewardModel>>(
+                future: _rewards,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return const Center(child: Text('No rewards available.'));
+                  } else {
+                    List<RewardModel> rewards = snapshot.data!;
+                    return GridView.builder(
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 0.9,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
+                      ),
+                      itemCount: rewards.length,
+                      itemBuilder: (context, index) {
+                        final reward = rewards[index];
+                        return Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.green, width: 1.5),
+                            borderRadius: BorderRadius.circular(15),
+                            color: reward.boxColor.withOpacity(0.1),
                           ),
-                          child: const Text("Redeem"),
-                        ),
-                      ],
-                    ),
-                  );
+                          padding: const EdgeInsets.all(12),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Icon(
+                                reward.icon,
+                                size: 50,
+                                color: Colors.green,
+                              ),
+                              Column(
+                                children: [
+                                  Text(
+                                    reward.title,
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Text(
+                                    reward.exchangePoint, // Use exchangePoint from API
+                                    style: const TextStyle(
+                                      fontSize: 23,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    reward.description, // Display description
+                                    style: const TextStyle(
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  // TODO: Implement redeem functionality
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFF2E553B),
+                                  foregroundColor: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                ),
+                                child: const Text("Redeem"),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  }
                 },
               ),
             ),
@@ -147,7 +157,7 @@ class _RewardPageState extends State<RewardPage> {
               ),
               const SizedBox(height: 8),
               const Text(
-                "100 Point",
+                "100 Point", // TODO: Fetch real points from API if available
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -166,7 +176,7 @@ class _RewardPageState extends State<RewardPage> {
                     ),
                   ),
                   onPressed: () {
-                    // Handle cash out action
+                    // TODO: Implement cash-out functionality
                   },
                   child: const Text(
                     "Cash out",

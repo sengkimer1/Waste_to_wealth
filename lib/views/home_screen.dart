@@ -7,6 +7,7 @@ import 'package:waste_to_wealth/models/activity_model.dart';
 import 'package:waste_to_wealth/models/points_model.dart';
 import 'package:waste_to_wealth/views/activity_screen.dart';
 import 'package:waste_to_wealth/views/reward.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -120,11 +121,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                         ),
                                         Text(
-                                          'Created: ${activity.date.toLocal().toString().split(' ')[0]}',
+                                          timeago.format(
+                                            activity.date,
+                                            locale: 'hours',
+                                          ),
                                           style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.black,
                                             fontSize: 12,
+                                            color: Colors.grey,
                                           ),
                                         ),
                                       ],
@@ -309,7 +312,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 30),
+          const SizedBox(height: 15),
           const Text(
             'Total Point',
             style: TextStyle(
@@ -336,7 +339,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              points.totalPoints as String,
+                              points.totalPoints,
                               style: TextStyle(
                                 fontSize: 32,
                                 color: Colors.black,
@@ -344,9 +347,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ),
                             Text(
-                              points.cashEquivalent as String,
+                              points.cashEquivalent ,
                               style: TextStyle(
-                                fontSize: 15,
+                                fontSize: 20,
                                 color: Colors.black,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -421,18 +424,18 @@ class _HomeScreenState extends State<HomeScreen> {
         minX: 0,
         maxX: 7,
         minY: 0,
-        maxY: 50,
+        maxY: 500,
         lineBarsData: [
           LineChartBarData(
             spots: const [
-              FlSpot(0, 10),
-              FlSpot(1, 30),
-              FlSpot(2, 15),
-              FlSpot(3, 25),
-              FlSpot(4, 10),
-              FlSpot(5, 45),
-              FlSpot(6, 20),
-              FlSpot(7, 25),
+              FlSpot(0, 100),
+              FlSpot(1, 200),
+              FlSpot(2, 390),
+              FlSpot(3, 150),
+              FlSpot(4, 300),
+              FlSpot(5, 100),
+              FlSpot(6, 200),
+              FlSpot(7, 250),
             ],
             isCurved: true,
             gradient: const LinearGradient(

@@ -16,8 +16,6 @@ import 'package:waste_to_wealth/views/pickup_screen.dart';
 import 'package:waste_to_wealth/views/social_screen.dart';
 
 
-
-
 void main() {
   runApp(const MyApp());
 }
@@ -41,8 +39,6 @@ class MyApp extends StatelessWidget {
         ),
         debugShowCheckedModeBanner: false,
         home:  LoginScreen(), // Change this to HomePage() if needed
-
-
 
       ),
     );
