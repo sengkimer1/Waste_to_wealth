@@ -5,7 +5,7 @@ import 'package:waste_to_wealth/services/api_services.dart';
 class ActivityController {
   final ApiService _apiService = ApiService();
 
-  Future<List<Activity>> fetchActivities() {
-    return _apiService.fetchActivities();
+  Future<List<Activity>> fetchActivitie() {
+    return _apiService.fetchActivitie();
   }
 }

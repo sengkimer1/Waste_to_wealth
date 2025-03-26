@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:waste_to_wealth/models/reward_model.dart';
 import 'package:waste_to_wealth/views/home_screen.dart';
 import 'package:waste_to_wealth/views/redeem_history.dart';
+import 'package:waste_to_wealth/views/popup_screen.dart';
 
 class RewardPage extends StatefulWidget {
   const RewardPage({super.key});
@@ -37,7 +38,7 @@ class _RewardPageState extends State<RewardPage> {
             _BoxReward(),
             SizedBox(height: 25),
             Container(
-              margin: EdgeInsets.only(right: 360),
+              margin: EdgeInsets.only(right: 280),
               child: Text(
                 'All Rewards',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -168,12 +169,20 @@ class _RewardPageState extends State<RewardPage> {
                   onPressed: () {
                     // Handle cash out action
                   },
-                  child: const Text(
-                    "Cash out",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => PopupScreen()),
+                      );
+                    },
+                    child: const Text(
+                      "Cash out",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),

@@ -7,6 +7,7 @@ import 'package:waste_to_wealth/models/activity_model.dart';
 import 'package:waste_to_wealth/models/points_model.dart';
 import 'package:waste_to_wealth/views/activity_screen.dart';
 import 'package:waste_to_wealth/views/reward.dart';
+import 'package:waste_to_wealth/views/pickup_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -196,7 +197,12 @@ class _HomeScreenState extends State<HomeScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => PickupScreen()),
+              );
+          },
           style: ElevatedButton.styleFrom(
             backgroundColor: Color(0xFF51BB20),
             shape: RoundedRectangleBorder(
@@ -459,6 +465,104 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+
+  // Widget _buildChartContainer() {
+  //   return Container(
+  //     width: double.infinity,
+  //     height: 300,
+  //     decoration: BoxDecoration(
+  //       color: const Color(0xFFC5EBB3),
+  //       borderRadius: BorderRadius.circular(10),
+  //     ),
+  //     child: Padding(
+  //       padding: const EdgeInsets.all(16.0),
+  //       child: Column(
+  //         crossAxisAlignment: CrossAxisAlignment.start,
+  //         children: [
+  //           Row(
+  //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //             children: [
+  //               Column(
+  //                 crossAxisAlignment: CrossAxisAlignment.start,
+  //                 children: const [
+  //                   Text(
+  //                     'Total Chart',
+  //                     style: TextStyle(
+  //                       fontSize: 18,
+  //                       fontWeight: FontWeight.bold,
+  //                     ),
+  //                   ),
+  //                   Text(
+  //                     'Point', // Added "Point" below "Total Chart"
+  //                     style: TextStyle(
+  //                       fontSize: 14,
+  //                       fontWeight: FontWeight.w400,
+  //                     ),
+  //                   ),
+  //                 ],
+  //               ),
+  //               Padding(
+  //                 padding: const EdgeInsets.only(right: 10.0), // Added margin
+  //                 child: const Text(
+  //                   'This Month',
+  //                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //           const SizedBox(height: 8),
+  //           Expanded(child: _buildLineChart()),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
+
+  // Padding _buildChartData() {
+  //   return Padding(
+  //     padding: const EdgeInsets.symmetric(horizontal: 16.0),
+  //     child: Column(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: [
+  //         const SizedBox(height: 10),
+  //         const Text(
+  //           'Total Point',
+  //           style: TextStyle(
+  //             fontSize: 24,
+  //             color: Colors.black,
+  //             fontWeight: FontWeight.w600,
+  //           ),
+  //         ),
+  //         const SizedBox(height: 8),
+  //         Row(
+  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //           children: const [
+  //             Text(
+  //               '50',
+  //               style: TextStyle(
+  //                 fontSize: 32,
+  //                 color: Colors.black,
+  //                 fontWeight: FontWeight.bold,
+  //               ),
+  //             ),
+  //             Text(
+  //               '\$1200',
+  //               style: TextStyle(
+  //                 fontSize: 15,
+  //                 color: Colors.black,
+  //                 fontWeight: FontWeight.w500,
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //         const SizedBox(height: 5),
+  //         _buildChartContainer(),
+  //       ],
+  //     ),
+  //   );
+  // }
+
 }
 
 AppBar _buildAppBar() {
