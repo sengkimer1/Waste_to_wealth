@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:waste_to_wealth/views/home_screen.dart';
+import 'package:waste_to_wealth/components/main_screen.dart';
 import 'signup_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:waste_to_wealth/controllers/user_controller.dart';
 import 'package:waste_to_wealth/bloc/user_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -17,23 +18,47 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final UserController _userController = UserController();
 
-  void _login() async {
-    final email = _emailController.text;
-    final password = _passwordController.text;
-    final userBloc = BlocProvider.of<UserBloc>(context);
+  @override
+  void initState() {
+    super.initState();
+    _checkToken(); // Check if user is already logged in when the screen is initialized
+  }
 
-    final user = await _userController.login(email, password, userBloc);
-    if (user != null) {
+  void _checkToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token'); // Get the token, which is nullable
+
+    if (token != null && token.isNotEmpty) {
+      // If token exists and is not empty, navigate to the MainScreen
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomeScreen()),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Login failed')),
+        MaterialPageRoute(builder: (context) => MainScreen()),
       );
     }
   }
+void _login() async {
+  final email = _emailController.text;
+  final password = _passwordController.text;
+  final userBloc = BlocProvider.of<UserBloc>(context);
+
+  final user = await _userController.login(email, password, userBloc);
+  if (user != null) {
+    final token = user.token ?? ''; // Use an empty string if token is null
+
+    // Save the token to SharedPreferences upon successful login
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('token', token); // Now token is non-null
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => MainScreen()),
+    );
+  } else {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Login failed')),
+    );
+  }
+}
 
   @override
   Widget build(BuildContext context) {

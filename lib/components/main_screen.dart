@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:waste_to_wealth/views/history_screen.dart';
 import 'package:waste_to_wealth/views/home_screen.dart';
+import 'package:waste_to_wealth/views/social_screen.dart';
 
-class NavigationMenu extends StatefulWidget {
-  const NavigationMenu({super.key});
+class MainScreen extends StatefulWidget {
+  const MainScreen({super.key});
 
   @override
-  State<NavigationMenu> createState() => _NavigationMenuState();
+  State<MainScreen> createState() => _MainScreenState();
 }
 
-class _NavigationMenuState extends State<NavigationMenu> {
+class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
 
   static final List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
-    const Text('History'),
-    const Text('Social'),
+    HistoryScreen(),
+    SocialScreen(),
     const Text('Profile'),
   ];
 
