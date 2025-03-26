@@ -5,7 +5,7 @@ import 'package:waste_to_wealth/services/api_services.dart';
 class PointsController {
   final ApiService _apiService = ApiService();
 
-  Future<List<PointsModel>> fetchPoint() {
-    return _apiService.fetchPoint();
+  Future<List<PointsModel>> fetchPoint() async {
+    return await _apiService.fetchPoint();
   }
 }

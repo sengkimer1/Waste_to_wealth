@@ -10,8 +10,8 @@ class Activity {
     required this.points,
     required this.date,
   });
-
-  factory Activity.fromJson(Map<String, dynamic> json) {
+// convert json data into Activity
+  factory Activity.fromJson(Map<String, dynamic> json) { 
     return Activity(
       estimateWeight: json['estimateWeight']?.toString() ?? '', 
       title: json['title'] ?? '',

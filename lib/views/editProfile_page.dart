@@ -78,12 +78,8 @@ class EditProfilePage extends StatelessWidget {
               const SizedBox(height: 40),
 
               // First Name Label & TextField
-              _buildTextField("First Name", "Soy"),
+              _buildTextField("Full Name", "Soy Chanleakhena"),
 
-              const SizedBox(height: 20),
-
-              // Last Name Label & TextField
-              _buildTextField("Last Name", "Chanleakhena"),
 
               const SizedBox(height: 20),
 
@@ -93,10 +89,7 @@ class EditProfilePage extends StatelessWidget {
               const SizedBox(height: 20),
 
               // Phone Number Label & TextField
-              _buildTextField("Phone Number", "01234567"),
-
-              const SizedBox(height: 30),
-
+           
               // Save Button
               ElevatedButton(
                 onPressed: () {

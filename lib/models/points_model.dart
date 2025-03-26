@@ -1,6 +1,6 @@
 class PointsModel {
-  final int totalPoints;
-  final double cashEquivalent;
+  final String totalPoints;
+  final String cashEquivalent;
 
   PointsModel({
     required this.totalPoints,
@@ -9,8 +9,8 @@ class PointsModel {
 
   factory PointsModel.fromJson(Map<String, dynamic> json) {
     return PointsModel(
-      totalPoints: json['totalPoints'],
-      cashEquivalent: json['cashEquivalent'],
+      totalPoints: json['totalPoints'].toString(), 
+      cashEquivalent: json['cashEquivalent'].toString(), // Convert int to String
     );
   }
 
