@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:waste_to_wealth/controllers/profile_controller.dart';
 import 'package:waste_to_wealth/models/profile_model.dart';
 import 'package:waste_to_wealth/views/editProfile_page.dart';
+import 'package:waste_to_wealth/views/login_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -141,7 +142,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   const SizedBox(width: 10), // Space between buttons
                   ElevatedButton(
                     onPressed: () {
-                      // Add your log out logic here
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => LoginScreen(),
+                        ),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFFB30000),
