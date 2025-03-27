@@ -106,7 +106,13 @@ class _RewardPageState extends State<RewardPage> {
                                 ],
                               ),
                               ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text('You get reward successfully'),
+                                    backgroundColor: Colors.green,
+                                    ),
+                                  );
+                                },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: const Color(0xFF2E553B),
                                   foregroundColor: Colors.white,
