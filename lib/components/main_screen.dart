@@ -3,6 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:waste_to_wealth/views/history_screen.dart';
 import 'package:waste_to_wealth/views/home_screen.dart';
 import 'package:waste_to_wealth/views/social_screen.dart';
+import 'package:waste_to_wealth/views/profile_screen.dart';
+
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -18,7 +20,7 @@ class _MainScreenState extends State<MainScreen> {
     HomeScreen(),
     HistoryScreen(),
     SocialScreen(),
-    const Text('Profile'),
+   ProfileScreen(),
   ];
 
   void _onItemTapped(int index) {
