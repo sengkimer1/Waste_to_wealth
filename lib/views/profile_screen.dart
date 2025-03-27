@@ -57,24 +57,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(100),
-                    child: Image.network(
-                      user.profileImageUrl, // Dynamically load image
+
+                     child: Image.asset(
+                      "assets/Logo.webp", 
                       fit: BoxFit.cover,
-                      loadingBuilder: (context, child, loadingProgress) {
-                        if (loadingProgress == null)
-                          return child; // Show image once loaded
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        ); // Show loader while loading
-                      },
-                      errorBuilder: (context, error, stackTrace) {
-                        return const Icon(
-                          Icons.person,
-                          size: 50,
-                          color: Colors.white,
-                        ); // Default icon if image fails
-                      },
                     ),
+                    // child: Image.network(
+                    //   user.profileImageUrl, // Dynamically load image
+                    //   fit: BoxFit.cover,
+                    //   loadingBuilder: (context, child, loadingProgress) {
+                    //     if (loadingProgress == null)
+                    //       return child; // Show image once loaded
+                    //     return const Center(
+                    //       child: CircularProgressIndicator(),
+                    //     ); // Show loader while loading
+                    //   },
+                    //   errorBuilder: (context, error, stackTrace) {
+                    //     return const Icon(
+                    //       Icons.person,
+                    //       size: 50,
+                    //       color: Colors.white,
+                    //     ); // Default icon if image fails
+                    //   },
+                    // ),
                   ),
                 ),
               ),
@@ -93,15 +98,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 height: 400,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 219, 255, 202),
+                  border: Border.all(color: Colors.green),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Column(
+                  spacing: 20,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     UserInfoRow(label: "Full Name", value: user.userName),
                     UserInfoRow(label: "Email", value: user.email),
+                    UserInfoRow(label: "Phone Number", value: "012343420"),
+                     UserInfoRow(label: "Address", value: "Phnom Penh"),
+
                   ],
                 ),
               ),

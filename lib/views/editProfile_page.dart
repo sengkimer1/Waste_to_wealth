@@ -88,6 +88,16 @@ class EditProfilePage extends StatelessWidget {
 
               const SizedBox(height: 20),
 
+               _buildTextField("Phone Number", "012343420"),
+
+              const SizedBox(height: 20),
+
+               _buildTextField("Address", "Phnom Penh"),
+
+              const SizedBox(height: 20),
+
+
+
               // Phone Number Label & TextField
            
               // Save Button
